@@ -264,7 +264,7 @@ echo 'export MAIL=$HOME/Maildir' >> /etc/profile.d/mail.sh
 [frodo@middlearth ~]$ mail gandalf@localhost
 Subject: Notificació de la comarca
 Benvinguts a la companyia, anem direcció mordor.
-.
+. (Amb Rocky 9 per sortir s'ha de pulsar "Ctrl + D")
 EOT
 [frodo@middlearth ~]$ exit
 [root@middlearth ~]# su - gandalf
