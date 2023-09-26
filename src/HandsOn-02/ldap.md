@@ -46,6 +46,12 @@ REQUIRED SOFTWARE
 ~ dnf install gcc -y
 ```
 
+* Instal·lació de Perl:
+
+```sh
+~ dnf install perl perl-devel -y
+```
+
 * Instal·lació de Cyrus SASL.:
 
 ```sh
