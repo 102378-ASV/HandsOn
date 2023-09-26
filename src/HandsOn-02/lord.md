@@ -198,7 +198,7 @@ Un cop s'han creat els usuaris entrarem al sistema com a **frodo** i enviarem un
 
 ```sh
 dnf -y install postfix
-dnf -y install mailx
+dnf -y install mailx (pels que teniu la versió de Rocky 9 heu d'instal·lar "s-nail").
 ```
 
 Postfix és un programari de servidor de correu electrònic que té com a objectiu principal gestionar l'enviament, recepció i l'encaminament de correus electrònics en un entorn de servidor. És conegut per la seva eficiència, seguretat i flexibilitat, i és àmpliament utilitzat en servidors de correu electrònic en tot el món.
