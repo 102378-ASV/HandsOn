@@ -328,7 +328,7 @@ Amb aquesta correcció, hem canviat l'UID de l'usuari gimli a 800 i també hem a
 * L'usuari **gandalf** ha de poder invocar a l'usuari **root**.
 
 ```sh
-~ usermod -aG gandald wheel
+~ usermod -aG gandalf wheel
 ```
 
 o bé:
