@@ -92,6 +92,9 @@ Finalment podem instal·lar extres com:
 
 ```sh
 dnf install libtool-ltdl-devel libdb-devel -y
+
+Per a Rocky 9 s'ha d'instal·lar:
+dnf --enablerepo=resilientstorage install libtool-ltdl-devel
 ```
 
 També podem afegir el repositori epel-release-7:
