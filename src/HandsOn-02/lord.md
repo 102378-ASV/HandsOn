@@ -23,7 +23,7 @@ en la Tierra de Mordor donde se extienden las Sombras
 
 ## Preparant el servidor
 
-1. Crear una MV amb el nom **middle-earth** amb el SO base Rocky Linux. **(1 CPU, 500MB de RAM, 4GB de disc)**.
+1. Crear una MV amb el nom **middle-earth** amb el SO base Rocky Linux. **(1 CPU, 1GB de RAM, 4GB de disc)**.
 2. Actualitzar totes les llibreries amb ```dnf update -y```.
 3. Instal·lar un editor de text (vim o nano) amb ```dnf install vim -y```.
 4. Instal·lar la shell tcsh amb ```dnf install tcsh -y```.
@@ -94,7 +94,7 @@ Finalment, tornem a iniciar sessió **SSH**. Per veure el nostre banner.
 Per podeu veure el banner, s'ha d'editar la configuració del servei SSH:
 
 ```sh
-vim /etc/sshd/sshd_config
+vim /etc/ssh/sshd_config
 # Descomentar 
 Banner /etc/issue.net
 # Guardar i sortir
@@ -120,7 +120,7 @@ groupadd [opcions] nom_del_grup
 |mags| 900|
 
 ```sh
-~ groupadd -g 600 hobbits 
+groupadd -g 600 hobbits 
 groupadd -g 700 elfs 
 groupadd -g 800 nans 
 groupadd -g 900 mags
@@ -177,13 +177,13 @@ o bé podeu fer servir (*gpasswd*):
 * L'usuari **gollum** vol tenir el seu *home* amb el nom **smeagol**.
 
 ```sh
-~ usermod -d /home/smeagol -m gollum
+~ usermod -d /home/smeagol -m gollum
 ```
 
 * L'usuari **legolas** vol tenir per defecte la *shell tcsh*.
 
 ```sh
-~ usermod -s /bin/tcsh legolas
+~ usermod -s /bin/tcsh legolas
 ```
 
 * L'usuari **gimli** no vol tenir *contrasenya*.
@@ -200,6 +200,8 @@ Un cop s'han creat els usuaris entrarem al sistema com a **frodo** i enviarem un
 dnf -y install postfix
 dnf -y install mailx (pels que teniu la versió de Rocky 9 heu d'instal·lar "s-nail").
 ```
+
+**NOTA**: Si feu anar Rocky Linux 9 heu d'instal·lar ```dnf install -y s-nail``` enlloc de ```dnf -y install mailx```.
 
 Postfix és un programari de servidor de correu electrònic que té com a objectiu principal gestionar l'enviament, recepció i l'encaminament de correus electrònics en un entorn de servidor. És conegut per la seva eficiència, seguretat i flexibilitat, i és àmpliament utilitzat en servidors de correu electrònic en tot el món.
 
@@ -271,6 +273,8 @@ EOT
 [gandalf@middlearth ~]$ mail
 ```
 
+**NOTA**: Si feu anar Rocky Linux 9 podeu acabar el mail prement *control+d* enlloc de amb **.**.
+
 ## Nasguls
 
 * Creareu un usuari **nasgul** que pugui esdevenir **root**, però que no pugui accedir al sistema.
@@ -278,8 +282,8 @@ EOT
 El grup *wheel* és un grup especial en alguns sistemes com els basats en Red Hat. Aquest grup té un significat històric i està relacionat amb la seguretat i els privilegis d'administració del sistema. En aquests sistmes, el grup **wheel** té permisos especials per accedir a determinades funcionalitats o comandes que requereixen permisos d'administrador o *root*. Aquest grup sol estar associat amb la possibilitat d'utilitzar la comanda **su** (superuser) per canviar a l'usuari *root* o altres usuaris amb privilegis d'administrador.
 
 ```sh
-~ useradd nasgul -s /bin/nologin
-~ usermod -aG wheel nasgul
+useradd nasgul -s /bin/nologin
+usermod -aG wheel nasgul
 ```
 
 * El **Frodo** ha sofert l’atac d’un **nasgul** i ha oblidat la seva *contrasenya*. Reinicialitza-la a **Hawkings** i assegura’t de què en el proper **login**, ell **l’actualitzarà**.
@@ -293,7 +297,7 @@ El grup *wheel* és un grup especial en alguns sistemes com els basats en Red Ha
 * Actualitza el *username* de **legolas** a **glorfindel**.
 
 ```sh
-~ usermod legolas -l glorfindel
+usermod legolas -l glorfindel
 ```
 
 * Creació de fitxers i directoris amb l'usuari gimli:
@@ -328,13 +332,13 @@ Amb aquesta correcció, hem canviat l'UID de l'usuari gimli a 800 i també hem a
 * L'usuari **gandalf** ha de poder invocar a l'usuari **root**.
 
 ```sh
-~ usermod -aG gandald wheel
+usermod -aG gandalf wheel
 ```
 
 o bé:
 
 ```sh
-~ gpasswd -a gandalf wheel
+gpasswd -a gandalf wheel
 ```
 
 * Bloca el compte de **glorfindel**.
@@ -354,7 +358,7 @@ passwd -L glorfindel
 o bé (*chage*):
 
 ```sh
-~ chage -E 0 glorfindel
+chage -E 0 glorfindel
 ```
 
 ## El poder de l'anell
@@ -362,34 +366,34 @@ o bé (*chage*):
 * Crearem un directori **/anell**.
 
 ```sh
-~ mkdir /anell
+~mkdir /anell
 ```
 
 * Crearem un grup portadors.
 
 ```sh
-~ groupadd portadors
+~groupadd portadors
 ```
 
 * Assignarem a frodo com a propietari del directori **/anell**.
 
 ```sh
-~ chown frodo:portadors /anell
+~chown frodo:portadors /anell
 ```
 
 * Modificarem els permisos del directori: Els fitxers d’aquest directori únicament podran ser **executats/editats** per l’usuari **Frodo**, la resta d’usuaris no ha de tenir cap permís ni de lectura, a excepció del grup d'usuari del grup **portadors** que *han de poder llegir el directori*.
 
-```shl
-~ chmod a-rwx /anell
-~ chmod g+r /anell
-~ chmod u+rwx /anell
+```sh
+~chmod a-rwx /anell
+~chmod g+r /anell
+~chmod u+rwx /anell
 ```
 
 * En **Frodo** ha de poder executar tots els fitxers del director **/anell/bin** sense haver d'afegir tota la ruta, únicament indicant el nom de l'executable.
 
 ```sh
-~ echo "export PATH=$PATH:/anell/bin" >> $HOME/.bashrc 
-~ source $HOME/.bashrc 
+~echo "export PATH=$PATH:/anell/bin" >> $HOME/.bashrc 
+~source $HOME/.bashrc 
 ```
 
 ## Final del viatge
@@ -397,14 +401,14 @@ o bé (*chage*):
 * Gimli es confon amb tots els missatges que apareixen a la pantalla quan inicia sessió. Configureu el seu compte perquè no es mostri cap missatge a la pantalla quan comenci la sessió.
 
 ```sh
-~ su gimli
-~ touch ~/.hushlogin
+~su gimli
+~touch ~/.hushlogin
 ```
 
 * No s’ha de permetre que en Gimli executi programes des del seu propi directori **/home**. Per fer-ho heu d'utilitzar (**setfacl**):
 
 ```sh
-~ setfacl -m u:gimli:--- /home/gimli
+~setfacl -m u:gimli:--- /home/gimli
 ```
 
 * L’usuari Samwise s’ha perdut i ha acabat a Narnia, elimineu-lo de l’univers.
