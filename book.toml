@@ -5,6 +5,9 @@ multilingual = false
 src = "src"
 title = "HandsOns en Administració i Virtualització de Sistemes"
 
+[output.html]
+mathjax-support = true
+
 [output.html.playground]
 editable = true
 

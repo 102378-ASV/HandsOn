@@ -39,3 +39,23 @@ git push origin nom_de_la_branca
 * Indica el meu repositori (on vols enviar les modificacions) i indica el teu fork (on has fet les modificacions). Assegura't de seleccionar la branca amb les modificacions. Finalment, fes clic a **Create pull request**. 
 
 * **Envia la PR**: Un cop hagis omplert tota la informació, fes clic al botó "Create pull request" per enviar la PR al projecte original.
+
+## Instruccions per instal·lar mdbook
+
+Per instal·lar mdbook, primer cal instal·lar Rust. Podeu trobar les instruccions d'instal·lació a [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install).
+
+Un cop instal·lat Rust, podeu instal·lar mdbook amb la comanda:
+
+```bash
+cargo install mdbook --vers 0.4.34
+```
+
+### Edició dels fitxers
+
+Els fitxers es troben en format Markdown. Podeu trobar més informació sobre el format Markdown a [Markdown Guide](https://www.markdownguide.org/basic-syntax/).
+
+### Avaluació dels canvis generant el llibre en format HTML al vostre ordinador
+
+```sh
+mdbook serve --open
+```
