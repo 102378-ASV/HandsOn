@@ -1,5 +1,5 @@
-## HANDSON 02
-# Repte (Oh my Zsh i Powerlevel10k): 
+# HANDSON 02
+## Repte (Oh my Zsh i Powerlevel10k): 
 
 Per instal·lar el Oh my Zsh, he instal·lat el zsh (i git) i després he executat la comanda que ens donen a la pàgina web del Oh my Zsh.:
 dnf install zsh -y
