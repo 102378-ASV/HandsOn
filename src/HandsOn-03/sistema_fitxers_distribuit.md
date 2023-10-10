@@ -95,7 +95,7 @@ En aquest punt, assumirem que teniu una màquina virtual creada amb un sistema o
 
     ```sh
     systemctl restart rpcbind
-    systemctl restart nfs
+    systemctl restart nfs-server
     ```
 
 ### Client NFS
