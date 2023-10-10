@@ -32,3 +32,8 @@
 - [Eines de xifratge](./HandsOn-03/xifratge.md)
 - [Sistema de fitxers distribuït](./HandsOn-03/sistema_fitxers_distribuit.md)
 - [RAIDs](./HandsOn-03/raids.md)
+
+# HandsOn-04: Seguretat
+
+- [Fail2Ban](./HandsOn-04/fail2ban.md)
+- [MFA](./HandsOn-04/mfa.md)
