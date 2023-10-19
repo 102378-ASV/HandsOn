@@ -144,7 +144,17 @@ Imagineu la situació que el **LV** creat anteriorment (**/dev/datavg/home**) s'
     lvdisplay
     ```
 
-També pot passar la situació contraria, que el **LV** tingui espai lliure i el **VG** no. En aquest cas, l'administrador pot reduir el **LV** per alliberar espai al **VG**.
+    > **Nota**: En aquest punt heu ampliat el **LV** però el sistema de fitxers **XFS** no té accés a l'espai nou. Per tant, el sistema de fitxers **XFS** no pot utilitzar l'espai nou. Per això, el sistema de fitxers **XFS** no mostra l'espai nou. ```df -h```.
+
+3. Ara necessitem ampliar el sistema de fitxers **XFS** perquè pugui utilitzar l'espai nou.
+
+    ```sh
+    xfs_growfs /dev/datavg/home
+    ```
+
+    > **Nota**: En aquest punt heu ampliat el **LV** i el sistema de fitxers **XFS** té accés a l'espai nou. Per tant, el sistema de fitxers **XFS** mostra l'espai nou. ```df -h```.
+
+També pot passar la situació contraria, que el **LV** tingui espai lliure i el **VG** no. En aquest cas, l'administrador pot reduir el **LV** per alliberar espai al **VG**. Aquesta és una pràctica que cal evitar, ja que pot provocar la pèrdua de dades. Es millor anar assignant espai raonables als **LVs** ja que es poden ampliar facilment. En canvi, reduir un **LV** pot ser perillós.
 
 1. Ara reduirem el **LV** creat anteriorment (**/dev/datavg/home**) amb 10MB.
 
@@ -159,6 +169,14 @@ També pot passar la situació contraria, que el **LV** tingui espai lliure i el
     ```sh
     lvdisplay
     ```
+
+3. Ara necessitem reduir el sistema de fitxers **XFS** perquè pugui utilitzar l'espai nou.
+
+    ```sh
+    xfs_growfs /dev/datavg/home
+    ```
+
+    > **Nota**: En aquest punt heu reduït el **LV** i el sistema de fitxers **XFS** té accés a l'espai nou. Per tant, el sistema de fitxers **XFS** mostra l'espai nou. ```df -h```.
 
 ### Creació de Snapshots
 
@@ -271,3 +289,37 @@ Assumirem que tenim 2 discs (**/dev/vdb** i **/dev/vdc**) i volem crear un **LV*
 
 Aquest exercici il·lustra com el mirroring garanteix la disponibilitat de les dades en cas de fallades de disc i com es poden realitzar operacions de manteniment sense pèrdua de dades.
 
+Per finalitzar podem eliminar i netejar el sistema.
+
+1. Desmontem els sistemes de fitxers:
+
+    ```sh
+    umount /mnt/home
+    umount /mnt/home-mirror
+    ```
+
+2. Eliminem l'snapshot:
+   
+   ```sh
+   lvconvert --merge /dev/datavg/home-snap
+   ```
+
+3. Elimina els volums lògics:
+
+   ```sh
+   lvremove /dev/datavg/home
+   lvremove /dev/datavg/home-mirror
+   ```
+
+4. Elimina els grups:
+
+    ```sh
+    vgremove datavg
+    ```
+
+5. Elimina els volums físics:
+
+    ```sh
+    pvremove /dev/vdb
+    pvremove /dev/vdc
+    ```
