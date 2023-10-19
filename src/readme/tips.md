@@ -28,3 +28,7 @@ screen -S nom_sessió
 # Per torna a la sessió
 screen -r nom_sessió
 ```
+
+## Consell 4
+
+És crucial assegurar-vos que, cada vegada que actualitzeu la taula de particions o els sistemes de fitxers associats, comproveu que l'UUID de la partició no hagi canviat. En cas de canvi, serà necessari actualitzar l'arxiu ```/etc/fstab``` amb el nou UUID corresponent. També us recomanem revisar l'arxiu ```/etc/fstab``` si heu eliminat o creat noves particions abans de reiniciar el sistema. No fer-ho pot provocar problemes d'arrencada. Per verificar que tots els sistemes de fitxers es muntin correctament abans de reiniciar, podeu utilitzar la comanda ```mount -a```.
