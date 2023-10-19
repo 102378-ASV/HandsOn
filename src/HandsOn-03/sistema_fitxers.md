@@ -761,3 +761,29 @@ Una pool ZFS és un conjunt de dispositius de blocs que es poden utilitzar per e
       zfspool/dades           43K   352M       29K  /mnt/dades
       zfspool/dades/clone1     0B   352M       29K  /mnt/dades/clone1
       ```
+
+12. Per eliminar un clon, utilitzarem la comanda **zfs destroy**:
+
+      ```sh
+      zfs destroy zfspool/dades/clone1
+      ```
+
+13. Per eliminar una instantània, utilitzarem la comanda **zfs destroy**:
+
+      ```sh
+      zfs destroy zfspool/dades@snap1
+      ```
+
+14. Per eliminar un sistema de fitxers, utilitzarem la comanda **zfs destroy**:
+
+      ```sh
+      zfs destroy zfspool/dades
+      ```
+
+      > **NOTA**: Si enlloc d'eliminar volem únicament desmuntar, utilitzarem la comanda **zfs umount**. Per exemple: ```zfs umount zfspool/dades```.
+
+15. Per eliminar una pool, utilitzarem la comanda **zpool destroy**:
+
+      ```sh
+      zpool destroy zfspool
+      ```

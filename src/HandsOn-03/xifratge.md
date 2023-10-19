@@ -24,12 +24,7 @@ El xifratge de discos protegeix les dades d'un dispositiu. Per accedir al contin
 
 Per fer aquesta activitat assegureu-vos que teniu una màquina virtual amb un disc muntat diferent del sistema de fitxers root. En aquest exemple, utilitzarem un disc de 0,5GB muntat a /mnt/private. Aquest disc es troba en un dispositiu virtual anomenat /dev/vdb.
 
-**Nota**: Si aprofiteu el mateix disc que heu fet anar en l'activitat anterior [Sistema de fitxers](./sistema_fitxers.md) heu de desmuntar-lo i formatejar-lo abans de continuar. 
-
-```sh
-umount /home
-mkfs.xfs -f /dev/vdb
-```
+> **Nota**: Si aprofiteu el mateix disc que heu fet anar en l'activitat anterior [Sistema de fitxers](./sistema_fitxers.md) heu de desmuntar-lo i formatejar-lo abans de continuar. Per desmuntar-lo feu un ```umount xxxx``` i per formatejar-lo ```mkfs.xfs -f /dev/vdb```.
 
 1. **Instal·leu el paquet cryptsetup**. Aquest paquet conté les eines necessàries per a la gestió de dispositius LUKS.
 
@@ -134,9 +129,18 @@ En aquest punt ens podriam plantegar si volem que el disc es munti automàticame
     reboot
     ```
 
+    > RECORDEU: Fer un ```mount -a``` per comprovar que no hi ha errors en el fitxer fstab.
+
 4. Al arrancar obriu la terminal VNC d'OpenNebula i haureu d'introudir la contrasenya que heu posat al pas 2. Un cop fet el sistema arrancarà.
 
 LUKS permet utilitzar fitxers clau per desxifrar els vostres dispositius, i és important investigar com fer-ho de manera segura. Tanmateix, cal tenir present que, tot i ser una eina útil per desxifrar dispositius sense necessitat d'introduir manualment una contrasenya, aquesta contrasenya es troba continguda en un fitxer. Això implica que si una persona no autoritzada aconsegueix accedir a aquest fitxer, també podrà accedir al contingut del disc protegit. Per aquest motiu, l'ús de fitxers clau no és una opció molt recomanada per a la majoria dels casos, ja que pot representar un risc per a la seguretat de les dades. Malgrat això, en situacions concretes i amb les degudes precaucions, l'ús de fitxers clau pot resultar útil. És fonamental avaluar amb deteniment el context i les necessitats de seguretat abans de decidir implementar aquesta opció.
+
+Per acabar podeu desmuntar el disc i eliminar la partició:
+
+```sh
+umount /mnt/private
+cryptsetup luksClose privateDisk
+```
 
 ## Reptes
 
