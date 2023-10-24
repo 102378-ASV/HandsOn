@@ -33,7 +33,6 @@
 - [Sistema de fitxers distribuït](./HandsOn-03/sistema_fitxers_distribuit.md)
 - [RAIDs](./HandsOn-03/raids.md)
 - [LVM](./HandsOn-03/lvm.md)
-- [Servidor de Backups](./HandsOn-03/backup.md)
 
 # HandsOn-04: Seguretat
 
