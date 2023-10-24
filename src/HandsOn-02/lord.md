@@ -198,7 +198,7 @@ Un cop s'han creat els usuaris entrarem al sistema com a **frodo** i enviarem un
 
 ```sh
 dnf -y install postfix
-dnf -y install mailx
+dnf -y install mailx (pels que teniu la versió de Rocky 9 heu d'instal·lar "s-nail").
 ```
 
 **NOTA**: Si feu anar Rocky Linux 9 heu d'instal·lar ```dnf install -y s-nail``` enlloc de ```dnf -y install mailx```.
