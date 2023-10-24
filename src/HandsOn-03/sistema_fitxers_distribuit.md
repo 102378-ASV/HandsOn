@@ -95,7 +95,7 @@ En aquest punt, assumirem que teniu una màquina virtual creada amb un sistema o
 
     ```sh
     systemctl restart rpcbind
-    systemctl restart nfs
+    systemctl restart nfs-server
     ```
 
 ### Client NFS
@@ -154,7 +154,7 @@ En aquest punt, assumirem que teniu una màquina virtual creada amb un sistema o
 2. Assumirem que tenim 2 usuaris al sistema (david) i (ivan). Per tant, crearem 2 directoris al directori compartit:
 
     ```sh
-    mkdir -d /mnt/data/homes/david /mnt/data/homes/ivan
+    mkdir -p /mnt/data/homes/david /mnt/data/homes/ivan
     ```
 
 3. Crearem el dos usuaris:
