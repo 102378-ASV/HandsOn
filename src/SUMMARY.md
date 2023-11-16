@@ -33,8 +33,13 @@
 - [Sistema de fitxers distribuït](./HandsOn-03/sistema_fitxers_distribuit.md)
 - [RAIDs](./HandsOn-03/raids.md)
 - [LVM](./HandsOn-03/lvm.md)
+- [Servidor de Backups](./HandsOn-03/backup.md)
 
 # HandsOn-04: Seguretat
 
 - [Fail2Ban](./HandsOn-04/fail2ban.md)
 - [MFA](./HandsOn-04/mfa.md)
+
+# Projecte
+
+- [Servidor Web (mdbook)](./projecte/web.md)
