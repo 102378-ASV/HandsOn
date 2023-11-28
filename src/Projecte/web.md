@@ -119,9 +119,9 @@ Es important que el nostre servidor web utilitzi un certificat SSL per a que les
 4. Ara editarem `/etc/httpd/conf.d/ssl.conf` i afegirem el següent contingut:
 
     ```bash
-        # Comenteu les linies següents i actualitzeu-les amb:
-        SSLCertificateFile /etc/httpd/ssl/apache.crt
-        SSLCertificateKeyFile /etc/httpd/ssl/apache.key
+    # Comenteu les linies següents i actualitzeu-les amb:
+    SSLCertificateFile /etc/httpd/ssl/apache.crt
+    SSLCertificateKeyFile /etc/httpd/ssl/apache.key
     ```
 
 5. Reiniciarem el servei d'Apache:

@@ -153,10 +153,11 @@ Director {
   WorkingDirectory = "/var/lib/bacula"
   PidDirectory = "/var/run"
   Maximum Concurrent Jobs = 20
-  Password = "@@DIR_PASSWORD@@"         # Console password
+  Password = "@@DIR_PASSWORD@@" 
   Messages = Daemon
   DirAddress = 127.0.0.1
 }
+```
 
 ### Configurant catàleg de bacula
 
@@ -228,7 +229,7 @@ Aquesta configuració defineix un dispositiu anomenat **FileChgr1-Dev1** que uti
 
 ## Configurant un client Bacula per a fer còpies de seguretat
 
-### Simulant un escenari
+### Simulant un escenari en una nova màquina virtual (client)
 
 Imagineu que tenim un servidor amb rocky on accedeixen múltiples usuaris i ens interessa tenir còpies de seguretat del seus *home*. Per això connectarem amb el nostre servidor (director) de bacula i crearem un client per a fer còpies de seguretat dels *home* dels usuaris.
 
@@ -302,67 +303,124 @@ on:
 - **Plugin Directory**: Aquesta és la carpeta on es troben els plugins del client.
 - **FDAddress**: Aquest és l'adreça IP en la qual el client escoltarà les sol·licituds del director de Bacula. (**IP del client**)
 
-
 Un cop configurat el client, reiniciarem el servei:
 
 ```sh
 systemctl restart bacula-fd
 ```
 
-### Configurant bacula per a fer còpies dels /home del client
+### Configurant bacula per a fer còpies dels /home del client 
+
+Ara retornarem al nostre servidor (director) de bacula i configurarem el director per a fer còpies de seguretat dels /home del client.
 
 Per configurar el director de bacula, editarem el fitxer **/etc/bacula/bacula-dir.conf** i afegirem el següent contingut:
 
 1. Configurarem el client:
 
-```json
-Client {
-  Name = computing-fd
-  Address = 192.168.101.106
-  FDPort = 9102
-  Catalog = MyCatalog
-  Password = "AsedefSAsddsae-X89afde_asdE-h"
-  File Retention = 30 days
-  Job Retention = 6 months
-  AutoPrune = yes
-}
-```
-
-on:
-
-- **Name**: Fer-lo coincidir amb el nom definit a la màquina client.
-- **Address**: Fer-lo coincidir amb la IP de la màquina client.
-- **Password**: Fer-lo coincidir amb la contrasenya definida a la màquina client.
-
-```json
-Job {
-  Name = "BackupUserHomes"
-  Type = Backup
-  Client = computing-fd
-  FileSet = "UserHomesBackup"
-  Schedule = "WeeklyCycle"  
-  Storage = File1
-  Messages = Standard
-  Pool = File
-  SpoolAttributes = yes
-  Priority = 10
-  Write Bootstrap = "/var/spool/bacula/RemoteBackup.bsr"
-  Where = /mnt/bacula/restore
-}
-```
-
-```json
-FileSet {
-  Name = "UserHomesBackup"
-  Include {
-    Options {
-      signature = MD5
+    ```json
+    Client {
+      Name = computing-fd
+      Address = 192.168.101.106
+      FDPort = 9102
+      Catalog = MyCatalog
+      Password = "AsedefSAsddsae-X89afde_asdE-h"
+      File Retention = 30 days
+      Job Retention = 6 months
+      AutoPrune = yes
     }
-    File = /home  # Path to user home directories on the remote machine
-  }
-  Exclude {
-    File = /home/tmp
-    File = /home/cache
-  }
-}
-```
+    ```
+
+    on:
+
+    - **Name**: Fer-lo coincidir amb el nom definit a la màquina client.
+    - **Address**: Fer-lo coincidir amb la IP de la màquina client.
+    - **Password**: Fer-lo coincidir amb la contrasenya definida a la màquina client.
+
+2. Crearem un job anomenat **BackupUserHomes** que farà còpies de seguretat dels /home del client:
+
+    ```json
+    Job {
+      Name = "BackupUserHomes"
+      Type = Backup
+      Client = computing-fd
+      FileSet = "UserHomesBackup"
+      Schedule = "WeeklyCycle"  
+      Storage = File1
+      Messages = Standard
+      Pool = File
+      SpoolAttributes = yes
+      Priority = 10
+      Write Bootstrap = "/var/spool/bacula/RemoteBackup.bsr"
+      Where = /mnt/bacula/restore
+    }
+    ```
+
+    on:
+
+    - **Schedule**: Aquest paràmetre defineix cada quan s'executarà el job. En el nostre cas, el job s'executarà cada setmana.
+    - **Storage**: Aquest paràmetre defineix el dispositiu de còpia de seguretat que s'utilitzarà per guardar les còpies de seguretat. En el nostre cas, utilitzarem el dispositiu **File1**.
+    - **Where**: Aquest paràmetre defineix la carpeta on es restauraran les còpies de seguretat. En el nostre cas, utilitzarem la carpeta **/mnt/bacula/restore**.
+
+3. Definirem el FileSet anomenat **UserHomesBackup** que farà còpies de seguretat dels /home del client:
+
+    ```json
+    FileSet {
+      Name = "UserHomesBackup"
+      Include {
+        Options {
+          signature = MD5
+        }
+        File = /home  # Path to user home directories on the remote machine
+      }
+      Exclude {
+        File = /home/tmp
+        File = /home/cache
+      }
+    }
+    ```
+
+4. Per finalitzar arancarem el servei:
+
+    ```sh
+    systemctl restart bacula-dir
+    ```
+
+## Realitzant còpies de seguretat
+
+Per realitzar còpies de seguretat, utilitzarem la consola de bacula:
+
+1. Per accedir a la consola de bacula, executarem la següent comanda:
+
+    ```sh
+    bconsole
+    ```
+
+2.Per veure tots els clients que tenim configurats, executarem la següent comanda:
+
+  ```sh
+  *list clients
+  ```
+
+3. Per comprovar que el client està connectat, executarem la següent comanda:
+
+    ```sh
+    *status client=computing-fd
+    ```
+
+4. Per llançar el job de còpia de seguretat, executarem la següent comanda:
+
+    ```sh
+    *run job=BackupUserHomes
+    ```
+
+5. Per veure l'estat del job, executarem la següent comanda:
+
+    ```sh
+    *status dir
+    ```
+
+6. Per sortir de la consola de bacula, executarem la següent comanda:
+
+    ```sh
+    *quit
+    ```
