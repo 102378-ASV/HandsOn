@@ -42,7 +42,8 @@
 
 # Projecte
 
-- [Servidor Web (mdbook)](./projecte/web.md)
-- [Servidor Web (jupyter)](./projecte/jupyter.md)
-- [Servidor de Backups](./projecte/backup.md)
+- [Servidor Web (mdbook)](./Projecte/web.md)
+- [Servidor Web (jupyter)](./Projecte/jupyter.md)
+- [Servidor de Backups](./Projecte/backup.md)
+
 
