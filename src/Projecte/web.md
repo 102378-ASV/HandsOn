@@ -222,6 +222,7 @@ Aquest usuari tindrà permisos per actualitzar el llibre mdbook que desplegarem 
     # Com a usuari mdbook
     cd /mdbook-source
     git clone git@github.com:JordiMateoUdL/mdbook.git
+    # Com a usuari root
     chown -R  mdbook:apache /mdbook-source
     ```
 
@@ -256,8 +257,8 @@ Aquest usuari tindrà permisos per actualitzar el llibre mdbook que desplegarem 
     - Actualitzarem SELinux per a que permeti a Apache accedir al directori:
 
         ```bash
-        chcon -R -t httpd_sys_content_t /var/www/html/book
-        restorecon -R /var/www/html/book
+        chcon -R -t httpd_sys_content_t /mdbook-source/mdbook/book 
+        restorecon -R /mdbook-source/mdbook/book 
         ```
 
     - Ara actualitzarem el nostre servidor web per servir el nostre llibre aprofitant tota la configuració anterior del servidor web. En aquest cas, haurem de crear un nou fitxer de configuració per aquest llibre. Crearem el fitxer `/etc/httpd/conf.d/mdbook.conf` amb el següent contingut:
